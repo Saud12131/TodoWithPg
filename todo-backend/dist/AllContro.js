@@ -80,7 +80,6 @@ exports.AllTodo = AllTodo;
 const UpdateTodo = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const { status } = req.body;
         const todoid = parseInt(id, 10);
         const updatetodo = yield prisma.todo.update({
             where: {

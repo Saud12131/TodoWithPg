@@ -74,7 +74,6 @@ const AllTodo = async (req: Request, res: Response) => {
 const UpdateTodo = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
-        const { status } = req.body;
         const todoid = parseInt(id, 10);
         const updatetodo = await prisma.todo.update({
             where: {
