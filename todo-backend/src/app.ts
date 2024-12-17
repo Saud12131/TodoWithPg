@@ -1,23 +1,17 @@
+import express, { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client'
+import AllRoutes from './AllRoutes';
+const app = express();
+const PORT = 5000
 
-const prisma = new PrismaClient()
+app.get("/", (req, res) => {
+    res.send("server woring")
+})
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-async function main() {
-  const user = await prisma.user.create({
-    data: {
-      name: 'Alice',
-      email: 'alice@prisma.io',
-    },
-  })
-  console.log(user)
-}
+app.listen(PORT, () => {
+    console.log(`server listing to port ${PORT}`)
+});
 
-main()
-  .then(async () => {
-    await prisma.$disconnect()
-  })
-  .catch(async (e) => {
-    console.error(e)
-    await prisma.$disconnect()
-    process.exit(1)
-  })
+app.use("/api/routes",AllRoutes);
