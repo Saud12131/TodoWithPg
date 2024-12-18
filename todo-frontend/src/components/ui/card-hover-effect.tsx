@@ -1,6 +1,7 @@
 import { cn } from "../../lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
+import axios from "axios";
 
 export const HoverEffect = ({
   items,
@@ -10,8 +11,10 @@ export const HoverEffect = ({
     title: string;
     // description: string;
     // link: string;
+    id: number,
   }[];
   className?: string;
+
 }) => {
   let [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -50,7 +53,7 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle>{item.title}</CardTitle>
-            <CardDescription><h3>not have a description</h3></CardDescription>
+            <CardDescription id={item.id}></CardDescription>
           </Card>
         </a>
       ))}
@@ -86,26 +89,31 @@ export const CardTitle = ({
   children: React.ReactNode;
 }) => {
   return (
-    <h4 className={cn("text-zinc-100 font-bold tracking-wide mt-4", className)}>
+    <h4 className={cn("text-zinc-100 font-bold tracking-wide mb-5", className)}>
       {children}
     </h4>
   );
 };
 export const CardDescription = ({
-  className,
-  children,
+  id
 }: {
-  className?: string;
-  children: React.ReactNode;
+  id: number,
 }) => {
+  const [status, setstatus] = useState<boolean>(Boolean);
+  const TogelButton = async () => {
+    try {
+      const response = await axios.put(`http://localhost:5000/api/routes/updatetodo/${id}`,);
+      console.log(response);
+
+    } catch (err) {
+      console.log(err);
+
+    }
+  }
   return (
-    <p
-      className={cn(
-        "mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm",
-        className
-      )}
-    >
-      {children}
-    </p>
+    <> <button className="bg-green-500 text-white font-bold py-1 mt-4 px-4 rounded hover:bg-green-600" onClick={TogelButton}>
+      Done
+    </button></>
+
   );
 };
