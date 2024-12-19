@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import axios from "axios";
 
+
 export const HoverEffect = ({
   items,
   className,
@@ -53,7 +54,7 @@ export const HoverEffect = ({
           </AnimatePresence>
           <Card>
             <CardTitle>{item.title}</CardTitle>
-            <CardDescription id={item.id}></CardDescription>
+            <CardDescription id={item.id} ></CardDescription>
           </Card>
         </a>
       ))}
@@ -95,25 +96,31 @@ export const CardTitle = ({
   );
 };
 export const CardDescription = ({
-  id
+  id,
+  //status,
 }: {
   id: number,
+  //status: boolean,
 }) => {
-  const [status, setstatus] = useState<boolean>(Boolean);
+  //let [status, setstatus] = useState<boolean>(Boolean);
   const TogelButton = async () => {
     try {
-      const response = await axios.put(`http://localhost:5000/api/routes/updatetodo/${id}`,);
-      console.log(response);
-
+      const response = await axios.put(`http://localhost:5000/api/routes/updatetodo/${id}`);
+      console.log(response.data);
+     // setstatus(response.data.updatetodo.status)
     } catch (err) {
       console.log(err);
 
     }
   }
   return (
-    <> <button className="bg-green-500 text-white font-bold py-1 mt-4 px-4 rounded hover:bg-green-600" onClick={TogelButton}>
-      Done
-    </button></>
+    <> <button
+      className="bg-green-500 text-white font-bold py-1 mt-4 px-4 rounded hover:bg-green-600"
+      onClick={TogelButton}
+    >
+      {status ? <p>Completed</p> : <p>Incomplete</p>}
+    </button>
+    </>
 
   );
 };
